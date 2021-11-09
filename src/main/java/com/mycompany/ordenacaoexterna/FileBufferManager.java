@@ -6,7 +6,6 @@ package com.mycompany.ordenacaoexterna;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  *
@@ -30,26 +29,39 @@ public class FileBufferManager {
   
   
   public Integer readBufferMinValue() {
-    Buffer bufferWithMinValue = buffers.get(0);
+    Integer minValue = null;
     
     for(Buffer buffer : buffers) {
       Integer value = buffer.peek();
       if(!buffer.isEnd()) {
-        if(value < bufferWithMinValue.peek()) {
-          bufferWithMinValue = buffer;
+        if(minValue == null || minValue.compareTo(value) > 0) {
+          minValue = value;
         }
       }
     }
     
-    Integer minValue = bufferWithMinValue.peek();
+    if (minValue == null) return minValue;
     
-    for(Buffer buffer : buffers) {
-      Integer value = buffer.peek();
-      if(!buffer.isEnd()) {
-        if(minValue == value) {
-          buffer.readValueOnBuffer();
+    boolean flag = true;
+    int i = 0;
+    while (flag) {
+      flag = false;
+      
+      for(Buffer buffer : buffers) {
+        Integer value = buffer.peek();
+        if(!buffer.isEnd()) {
+          if(minValue.equals(value)) {
+            /*if (minValue == 128) {
+              System.out.println(minValue);
+              System.out.println(++i);
+            }*/
+            buffer.readValueOnBuffer();
+            flag = true;
+          }
         }
       }
+    
+    
     }
     
     return minValue;

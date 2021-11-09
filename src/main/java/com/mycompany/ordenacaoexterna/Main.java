@@ -21,18 +21,22 @@ public class Main {
   public static void main(String[] args) {
     // TODO code application logic here
     try {
-      FileWriter fw = new FileWriter("tests/test-file");
+      FileWriter fw = new FileWriter("tests/output-test-file");
       BufferedWriter bw = new BufferedWriter(fw);
       
       ArrayList<String> files = new ArrayList<>();
       files.add("tests/V1");
       files.add("tests/V2");
+      // files.add("tests/V3");      
       files.add("tests/V3");
+      //files.add("tests/V3");
+
+      files.add("tests/V4");
 
 
       FileBufferManager fbm = new FileBufferManager(files, 1);
       Integer value = fbm.readBufferMinValue();
-      while (!fbm.allBuffersEnds()) {        
+      while (!fbm.allBuffersEnds()) {
         bw.write(value + "\n");
         value = fbm.readBufferMinValue();
       }
